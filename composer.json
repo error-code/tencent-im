@@ -1,0 +1,27 @@
+{
+    "name": "errorcode/tim",
+    "description": "php腾讯即时通讯 IM",
+    "keywords": [
+        "tim",
+        "TIM",
+        "腾讯即时通讯",
+        "腾讯IM"
+    ],
+    "homepage": "https://github.com/errorcode/tencent-im",
+    "type": "library",
+    "autoload":{
+        "psr-4":{
+            "errorcode\\tim\\": "/src"
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "guzzlehttp/guzzle": "6.5.5"
+    },
+    "authors": [
+        {
+            "name": "errorcode",
+            "email": "530316985@qq.com"
+        }
+    ]
+}
