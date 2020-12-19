@@ -1,6 +1,7 @@
 {
     "name": "errorcode/tim",
     "description": "php腾讯即时通讯 IM",
+    "license": "MIT",
     "keywords": [
         "tim",
         "TIM",
