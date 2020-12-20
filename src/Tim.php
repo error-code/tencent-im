@@ -102,6 +102,6 @@ class Tim{
         if(!$body){
             return false;
         }
-        return $body;
+        return json_decode($body,true);
     }
 }
