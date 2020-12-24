@@ -2,6 +2,7 @@
     "name": "errorcode/tim",
     "description": "php腾讯即时通讯 IM",
     "license": "MIT",
+    "minimum-stability": "dev",
     "keywords": [
         "tim",
         "TIM",
@@ -17,7 +18,8 @@
     },
     "require": {
         "php": ">=5.4",
-        "guzzlehttp/guzzle": "6.5.5"
+        "guzzlehttp/guzzle": "6.5.5",
+        "divineomega/do-file-cache":"2.0.6"
     },
     "authors": [
         {

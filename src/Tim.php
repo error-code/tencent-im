@@ -22,12 +22,31 @@ class Tim{
 
     private $url = 'https://console.tim.qq.com/v4/';
 
-    public function __construct($appid = '',$key = ''){
-        if(!$appid||!$key){
-            throw new \Exception('appid 和 key 不能为空');
+    public function __construct($config,$userid = ''){
+
+        $_userid = $userid?$userid:$config['userid'];
+
+        if(!$config['appid']||!$config['key']||!$_userid){
+            throw new \Exception('appid、key、userid 不能为空');
         }
-        $this->appid = $appid;
-        $this->key = $key;
+
+        $this->appid = $config['appid'];
+        $this->key = $config['key'];
+        $this->userid = $_userid;
+
+        //自动缓存
+        $expire_time = 86400*180;
+        $ext_time = time()+$expire_time;
+        
+        $sign = new Sign($this->appid,$this->key);
+        $cache = new \DivineOmega\DOFileCache\DOFileCache();
+        $cache->changeConfig(["cacheDirectory" => isset($config['cache_dir'])?$config['cache_dir']:'./temp/Sign/']);
+        $_sign = $cache->get('tim_sign_'.$this->userid);
+        if(!$_sign){
+            $_sign = $sign->genUserSig($this->userid,$expire_time);
+            $cache->set('tim_sign_'.$this->userid,$_sign, $ext_time);
+        }
+        $this->sign = $_sign;
     }
 
     /**
@@ -60,16 +79,9 @@ class Tim{
 
     /**
      * 获取UserSig
-     * @param string userid - 用户id，限制长度为32字节，只允许包含大小写英文字母（a-zA-Z）、数字（0-9）及下划线和连词符。
-     * @param string expire - UserSig 票据的过期时间，单位是秒，比如 86400 代表生成的 UserSig 票据在一天后就无法再使用了。
      */
-    public function sign($userid = '',$expire = 86400*180){
-        if(!$userid){
-            throw new \Exception('userid 不能为空');
-        }
-        $sign = new Sign($this->appid,$this->key);
-        $this->userid = $userid;
-        $this->sign =  $sign->genUserSig($userid);
+    public function getSign(){
+
         return $this->sign;
     }
 
